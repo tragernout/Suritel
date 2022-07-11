@@ -36,7 +36,12 @@ def start(message):
                         if res in line:
                             data = json.loads(line)
                             report = full_text + data['payload_printable']
-                            bot.send_message(message.chat.id, report)
+                            if "/assets/js/" not in report and "/assets/css/" not in report and "favicon.ico" not in report:
+                                if len(report) > 4096:
+                                    for x in range(0, len(report), 4096):
+                                        bot.send_message(message.chat.id, report[x:x + 4096])
+                                else:
+                                    bot.send_message(message.chat.id, report)
 
                 print(text)
 
